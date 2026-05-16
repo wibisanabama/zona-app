@@ -3,7 +3,7 @@
     'label' => null,
     'options' => [],
     'value' => null,
-    'placeholder' => '— Pilih —',
+    'placeholder' => '- Pilih -',
     'required' => false,
     'disabled' => false,
 ])

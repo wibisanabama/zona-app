@@ -30,7 +30,7 @@
                 <tr>
                     <td class="font-medium">{{ $customer->name }}</td>
                     <td>{{ $customer->phone }}</td>
-                    <td><span class="uppercase text-xs">{{ $customer->identity_type }}</span> — {{ $customer->identity_number }}</td>
+                    <td><span class="uppercase text-xs">{{ $customer->identity_type }}</span> - {{ $customer->identity_number }}</td>
                     <td><span class="truncate block max-w-[200px]" style="color: var(--color-stone);">{{ $customer->address }}</span></td>
                     <td>
                         @if($customer->blacklisted)

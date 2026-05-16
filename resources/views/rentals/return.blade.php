@@ -17,7 +17,7 @@
 
     <x-card class="max-w-3xl">
         <div class="mb-4 p-3 rounded-lg text-sm" style="background-color: var(--color-ash);">
-            <span class="font-medium">{{ $rental->customer->name }}</span> — {{ $rental->customer->phone }}
+            <span class="font-medium">{{ $rental->customer->name }}</span> - {{ $rental->customer->phone }}
         </div>
 
         <form method="POST" action="{{ route('rentals.process-return', $rental) }}">

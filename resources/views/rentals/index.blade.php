@@ -32,7 +32,7 @@
                 @php $effStatus = $rental->effective_status; @endphp
                 <tr>
                     <td class="font-mono font-medium text-sm">{{ $rental->code }}</td>
-                    <td>{{ $rental->customer->name ?? '—' }}</td>
+                    <td>{{ $rental->customer->name ?? '-' }}</td>
                     <td>{{ $rental->rental_date->format('d/m/Y') }}</td>
                     <td>{{ $rental->due_date->format('d/m/Y') }}</td>
                     <td class="font-medium">{{ $rental->formatted_total }}</td>

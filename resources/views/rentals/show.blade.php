@@ -60,7 +60,7 @@
                     @foreach($rental->rentalItems as $ri)
                         <tr>
                             <td>
-                                <p class="font-medium">{{ $ri->item->name ?? '—' }}</p>
+                                <p class="font-medium">{{ $ri->item->name ?? '-' }}</p>
                                 <p class="text-xs" style="color: var(--color-stone);">{{ $ri->item->sku ?? '' }}</p>
                             </td>
                             <td>{{ $ri->quantity }}</td>
@@ -87,9 +87,9 @@
             {{-- Customer --}}
             <x-card>
                 <h3 class="text-sm font-semibold mb-3" style="color: var(--color-forest);">Pelanggan</h3>
-                <p class="font-medium">{{ $rental->customer->name ?? '—' }}</p>
+                <p class="font-medium">{{ $rental->customer->name ?? '-' }}</p>
                 <p class="text-sm" style="color: var(--color-stone);">{{ $rental->customer->phone ?? '' }}</p>
-                <p class="text-xs mt-1" style="color: var(--color-stone);">Kasir: {{ $rental->cashier->name ?? '—' }}</p>
+                <p class="text-xs mt-1" style="color: var(--color-stone);">Kasir: {{ $rental->cashier->name ?? '-' }}</p>
             </x-card>
 
             {{-- Financial --}}

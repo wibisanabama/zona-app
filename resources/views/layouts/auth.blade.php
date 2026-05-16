@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="Login — Zona Adventure Cianjur POS Rental">
+    <meta name="description" content="Login - Zona Adventure Cianjur POS Rental">
 
-    <title>@yield('title', 'Login') — {{ config('app.name') }}</title>
+    <title>@yield('title', 'Login') - {{ config('app.name') }}</title>
 
     {{-- Favicon --}}
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏕️</text></svg>" type="image/svg+xml">

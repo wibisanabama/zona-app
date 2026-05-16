@@ -72,7 +72,7 @@
                             @endif
                         </div>
 
-                        <p class="text-xs mb-1" style="color: var(--color-stone);">{{ $item->category->name ?? '—' }}</p>
+                        <p class="text-xs mb-1" style="color: var(--color-stone);">{{ $item->category->name ?? '-' }}</p>
                         <p class="font-semibold text-sm" style="color: var(--color-forest);">{{ $item->formatted_daily_rate }}<span class="font-normal text-xs" style="color: var(--color-stone);">/hari</span></p>
 
                         <div class="flex items-center gap-2 mt-3 pt-3 border-t" style="border-color: var(--color-mist);">

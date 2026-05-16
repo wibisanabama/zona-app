@@ -39,7 +39,7 @@
                         </div>
                     </td>
                     <td>
-                        <span style="color: var(--color-stone);">{{ $category->description ?? '—' }}</span>
+                        <span style="color: var(--color-stone);">{{ $category->description ?? '-' }}</span>
                     </td>
                     <td>
                         <x-badge variant="{{ $category->items_count > 0 ? 'success' : 'neutral' }}">

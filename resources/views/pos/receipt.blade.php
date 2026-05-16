@@ -14,7 +14,7 @@
             <div class="text-center border-b pb-4 mb-4" style="border-color: var(--color-mist);">
                 <h2 class="text-lg font-bold" style="color: var(--color-forest);">🏕️ Zona Adventure Cianjur</h2>
                 <p class="text-xs" style="color: var(--color-stone);">Rental Alat Camping & Outdoor</p>
-                <p class="text-xs mt-1" style="color: var(--color-stone);">Jl. Raya Cianjur — Telp: 0263-XXXXXXX</p>
+                <p class="text-xs mt-1" style="color: var(--color-stone);">Jl. Raya Cianjur - Telp: 0263-XXXXXXX</p>
             </div>
 
             {{-- Info --}}
