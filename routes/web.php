@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\RentalController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -50,5 +51,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/pos/search-items', [PosController::class, 'searchItems'])->name('pos.search-items');
         Route::post('/pos', [PosController::class, 'store'])->name('pos.store');
         Route::get('/pos/{rental}/receipt', [PosController::class, 'receipt'])->name('pos.receipt');
+
+        // Rentals
+        Route::get('/rentals', [RentalController::class, 'index'])->name('rentals.index');
+        Route::get('/rentals/{rental}', [RentalController::class, 'show'])->name('rentals.show');
+        Route::get('/rentals/{rental}/return', [RentalController::class, 'returnForm'])->name('rentals.return');
+        Route::post('/rentals/{rental}/return', [RentalController::class, 'processReturn'])->name('rentals.process-return');
+        Route::post('/rentals/{rental}/cancel', [RentalController::class, 'cancel'])->name('rentals.cancel');
     });
 });
