@@ -17,6 +17,11 @@
             <tbody>
                 {{ $slot }}
             </tbody>
+            @isset($footer)
+            <tfoot>
+                {{ $footer }}
+            </tfoot>
+            @endisset
         </table>
     </div>
 
