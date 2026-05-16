@@ -17,7 +17,16 @@ class ReportController extends Controller
         $endDate = $startDate->copy()->endOfMonth();
 
         // Daily Income from Payments
-        $dailyIncome = Payment::whereBetween('created_at', [$startDate, $endDate])
+        $incomePayments = Payment::whereBetween('created_at', [$startDate, $endDate])
+            ->income()
+            ->selectRaw('DATE(created_at) as date, sum(amount) as total')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get()
+            ->keyBy('date');
+
+        $outflowPayments = Payment::whereBetween('created_at', [$startDate, $endDate])
+            ->outflow()
             ->selectRaw('DATE(created_at) as date, sum(amount) as total')
             ->groupBy('date')
             ->orderBy('date')
@@ -40,7 +49,9 @@ class ReportController extends Controller
 
         for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
             $dateString = $date->format('Y-m-d');
-            $income = $dailyIncome->has($dateString) ? $dailyIncome[$dateString]->total : 0;
+            $incomeTotal = $incomePayments->has($dateString) ? $incomePayments[$dateString]->total : 0;
+            $outflowTotal = $outflowPayments->has($dateString) ? $outflowPayments[$dateString]->total : 0;
+            $income = $incomeTotal - $outflowTotal;
             $rentalsCount = $dailyRentals->has($dateString) ? $dailyRentals[$dateString]->total_transactions : 0;
             $rentalsValue = $dailyRentals->has($dateString) ? $dailyRentals[$dateString]->total_value : 0;
 
@@ -71,7 +82,16 @@ class ReportController extends Controller
         $startDate = Carbon::parse($month.'-01')->startOfMonth();
         $endDate = $startDate->copy()->endOfMonth();
 
-        $dailyIncome = Payment::whereBetween('created_at', [$startDate, $endDate])
+        $incomePayments = Payment::whereBetween('created_at', [$startDate, $endDate])
+            ->income()
+            ->selectRaw('DATE(created_at) as date, sum(amount) as total')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get()
+            ->keyBy('date');
+
+        $outflowPayments = Payment::whereBetween('created_at', [$startDate, $endDate])
+            ->outflow()
             ->selectRaw('DATE(created_at) as date, sum(amount) as total')
             ->groupBy('date')
             ->orderBy('date')
@@ -89,7 +109,9 @@ class ReportController extends Controller
 
         for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
             $dateString = $date->format('Y-m-d');
-            $income = $dailyIncome->has($dateString) ? $dailyIncome[$dateString]->total : 0;
+            $incomeTotal = $incomePayments->has($dateString) ? $incomePayments[$dateString]->total : 0;
+            $outflowTotal = $outflowPayments->has($dateString) ? $outflowPayments[$dateString]->total : 0;
+            $income = $incomeTotal - $outflowTotal;
             $rentalsCount = $dailyRentals->has($dateString) ? $dailyRentals[$dateString]->total_transactions : 0;
             $rentalsValue = $dailyRentals->has($dateString) ? $dailyRentals[$dateString]->total_value : 0;
 
@@ -127,6 +149,17 @@ class ReportController extends Controller
 
         // Using standard collection grouping for better DB compatibility instead of MONTH()
         $monthlyIncome = Payment::whereBetween('created_at', [$startDate, $endDate])
+            ->income()
+            ->get()
+            ->groupBy(function($payment) {
+                return (int)Carbon::parse($payment->created_at)->format('m');
+            })
+            ->map(function ($group) {
+                return $group->sum('amount');
+            });
+
+        $monthlyOutflow = Payment::whereBetween('created_at', [$startDate, $endDate])
+            ->outflow()
             ->get()
             ->groupBy(function($payment) {
                 return (int)Carbon::parse($payment->created_at)->format('m');
@@ -149,7 +182,9 @@ class ReportController extends Controller
 
         $reportData = [];
         for ($m = 1; $m <= 12; $m++) {
-            $income = $monthlyIncome->has($m) ? $monthlyIncome[$m] : 0;
+            $incomeTotal = $monthlyIncome->has($m) ? $monthlyIncome[$m] : 0;
+            $outflowTotal = $monthlyOutflow->has($m) ? $monthlyOutflow[$m] : 0;
+            $income = $incomeTotal - $outflowTotal;
             $rentalsCount = $monthlyRentals->has($m) ? $monthlyRentals[$m]['total_transactions'] : 0;
             $rentalsValue = $monthlyRentals->has($m) ? $monthlyRentals[$m]['total_value'] : 0;
 

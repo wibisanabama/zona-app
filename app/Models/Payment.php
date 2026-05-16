@@ -33,4 +33,14 @@ class Payment extends Model
     {
         return $this->belongsTo(User::class, 'cashier_id');
     }
+
+    public function scopeIncome($query)
+    {
+        return $query->whereIn('type', ['dp', 'pelunasan', 'denda']);
+    }
+
+    public function scopeOutflow($query)
+    {
+        return $query->whereIn('type', ['refund_deposit']);
+    }
 }

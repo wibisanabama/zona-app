@@ -21,7 +21,8 @@ class DashboardController extends Controller
         $activeRentalsCount = Rental::where('status', 'aktif')->count();
 
         // 2. Pendapatan Hari Ini
-        $todayIncome = Payment::whereDate('created_at', $today)->sum('amount');
+        $todayIncome = Payment::whereDate('created_at', $today)->income()->sum('amount')
+                     - Payment::whereDate('created_at', $today)->outflow()->sum('amount');
 
         // 3. Total Barang
         $totalItems = Item::count();
