@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -22,9 +24,13 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
+        $request->ensureIsNotRateLimited();
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            RateLimiter::clear(Str::lower($request->input('email')) . '|' . $request->ip());
+
             $user = Auth::user();
 
             // Check if user is active
