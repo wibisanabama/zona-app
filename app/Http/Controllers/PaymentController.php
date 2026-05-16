@@ -32,6 +32,8 @@ class PaymentController extends Controller
 
     public function destroy(Payment $payment)
     {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
         $rental = $payment->rental;
         $payment->delete();
 

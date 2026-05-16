@@ -33,4 +33,35 @@ class StorePaymentRequest extends FormRequest
             'paid_at.date' => 'Format tanggal pembayaran tidak valid.',
         ];
     }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $rental = $this->route('rental');
+            if (!$rental) {
+                return;
+            }
+
+            $amount = $this->input('amount');
+            $type = $this->input('type');
+
+            if (!$amount || !is_numeric($amount)) {
+                return;
+            }
+
+            if ($type === 'refund_deposit') {
+                if ($amount > $rental->total_deposit) {
+                    $validator->errors()->add('amount', 'Jumlah refund deposit tidak boleh melebihi total deposit (Rp ' . number_format($rental->total_deposit, 0, ',', '.') . ').');
+                }
+            } elseif (in_array($type, ['dp', 'pelunasan', 'denda'])) {
+                $outstandingBalance = $rental->total_amount + $rental->late_fee - $rental->paid_amount;
+                if ($outstandingBalance < 0) {
+                    $outstandingBalance = 0;
+                }
+                if ($amount > $outstandingBalance) {
+                    $validator->errors()->add('amount', 'Jumlah pembayaran tidak boleh melebihi sisa tagihan (Rp ' . number_format($outstandingBalance, 0, ',', '.') . ').');
+                }
+            }
+        });
+    }
 }

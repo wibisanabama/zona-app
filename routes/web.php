@@ -52,6 +52,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/reports/item-utilization/csv', [ReportController::class, 'exportItemUtilizationCsv'])->name('reports.item-utilization.csv');
         Route::get('/reports/overdue', [ReportController::class, 'overdueRentals'])->name('reports.overdue');
         Route::get('/reports/overdue/csv', [ReportController::class, 'exportOverdueCsv'])->name('reports.overdue.csv');
+
+        // Payments (Admin only)
+        Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
     });
 
     // Admin + Kasir routes
@@ -73,6 +76,5 @@ Route::middleware('auth')->group(function () {
 
         // Payments
         Route::post('/rentals/{rental}/payments', [PaymentController::class, 'store'])->name('payments.store');
-        Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
     });
 });

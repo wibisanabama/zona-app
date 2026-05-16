@@ -118,7 +118,7 @@
 
             {{-- Payment Form --}}
             @if($rental->status !== 'batal')
-                <x-card x-data="{ showForm: false }">
+                <x-card x-data="{ showForm: {{ $errors->any() ? 'true' : 'false' }} }">
                     <div class="flex items-center justify-between mb-3">
                         <h3 class="text-sm font-semibold" style="color: var(--color-forest);">Pembayaran</h3>
                         <button @click="showForm = !showForm" class="text-xs underline cursor-pointer bg-transparent border-none" style="color: var(--color-olive);" x-text="showForm ? 'Tutup' : 'Tambah'"></button>
@@ -153,6 +153,15 @@
 
                     {{-- Add payment form --}}
                     <div x-show="showForm" x-transition class="border-t pt-3" style="border-color: var(--color-mist);">
+                        @if ($errors->any())
+                            <div class="mb-3 p-2 rounded text-xs text-red-600 bg-red-50 border border-red-200">
+                                <ul class="list-disc list-inside">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method="POST" action="{{ route('payments.store', $rental) }}">
                             @csrf
                             <div class="grid grid-cols-2 gap-2 mb-2">
