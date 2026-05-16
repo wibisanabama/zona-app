@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RentalController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -58,5 +59,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/rentals/{rental}/return', [RentalController::class, 'returnForm'])->name('rentals.return');
         Route::post('/rentals/{rental}/return', [RentalController::class, 'processReturn'])->name('rentals.process-return');
         Route::post('/rentals/{rental}/cancel', [RentalController::class, 'cancel'])->name('rentals.cancel');
+
+        // Payments
+        Route::post('/rentals/{rental}/payments', [PaymentController::class, 'store'])->name('payments.store');
+        Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
     });
 });

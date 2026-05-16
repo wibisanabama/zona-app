@@ -115,6 +115,65 @@
                     <p class="text-sm" style="color: var(--color-stone);">{{ $rental->notes }}</p>
                 </x-card>
             @endif
+
+            {{-- Payment Form --}}
+            @if($rental->status !== 'batal')
+                <x-card x-data="{ showForm: false }">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold" style="color: var(--color-forest);">Pembayaran</h3>
+                        <button @click="showForm = !showForm" class="text-xs underline cursor-pointer bg-transparent border-none" style="color: var(--color-olive);" x-text="showForm ? 'Tutup' : 'Tambah'"></button>
+                    </div>
+
+                    {{-- Payment list --}}
+                    @if($rental->payments && $rental->payments->count() > 0)
+                        <div class="space-y-2 mb-3">
+                            @foreach($rental->payments as $payment)
+                                <div class="flex items-center justify-between p-2 rounded text-sm" style="background-color: var(--color-ash);">
+                                    <div>
+                                        <span class="font-medium">{{ $payment->formatted_amount }}</span>
+                                        <span class="text-xs ml-1" style="color: var(--color-stone);">{{ ucfirst($payment->method) }} • {{ ucfirst($payment->type) }}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs" style="color: var(--color-stone);">{{ $payment->created_at->format('d/m H:i') }}</span>
+                                        <form method="POST" action="{{ route('payments.destroy', $payment) }}" x-data x-on:submit.prevent="if(confirm('Hapus pembayaran ini?')) $el.submit()" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-xs cursor-pointer bg-transparent border-none" style="color: var(--color-danger);">✕</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="text-xs mb-3" style="color: var(--color-stone);">Belum ada pembayaran.</p>
+                    @endif
+
+                    {{-- Add payment form --}}
+                    <div x-show="showForm" x-transition class="border-t pt-3" style="border-color: var(--color-mist);">
+                        <form method="POST" action="{{ route('payments.store', $rental) }}">
+                            @csrf
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <input type="number" name="amount" placeholder="Jumlah (Rp)" class="input-base !h-8 !text-xs" required min="1">
+                                <select name="method" class="select-base !h-8 !text-xs">
+                                    <option value="tunai">Tunai</option>
+                                    <option value="transfer">Transfer</option>
+                                    <option value="qris">QRIS</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <select name="type" class="select-base !h-8 !text-xs">
+                                    <option value="sewa">Sewa</option>
+                                    <option value="deposit">Deposit</option>
+                                    <option value="denda">Denda</option>
+                                    <option value="refund">Refund</option>
+                                </select>
+                                <input type="text" name="notes" placeholder="Catatan" class="input-base !h-8 !text-xs">
+                            </div>
+                            <x-button type="submit" class="w-full justify-center !min-h-[32px] !text-xs">Catat Pembayaran</x-button>
+                        </form>
+                    </div>
+                </x-card>
+            @endif
         </div>
     </div>
 @endsection
