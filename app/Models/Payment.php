@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Payment extends Model
 {
     protected $fillable = [
-        'rental_id', 'received_by', 'amount', 'method', 'type', 'notes',
+        'rental_id', 'cashier_id', 'amount', 'method', 'type', 'paid_at', 'reference_no', 'notes',
     ];
 
     protected function casts(): array
     {
         return [
             'amount' => 'decimal:2',
+            'paid_at' => 'datetime',
         ];
     }
 
@@ -28,8 +29,8 @@ class Payment extends Model
         return $this->belongsTo(Rental::class);
     }
 
-    public function receiver(): BelongsTo
+    public function cashier(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'received_by');
+        return $this->belongsTo(User::class, 'cashier_id');
     }
 }

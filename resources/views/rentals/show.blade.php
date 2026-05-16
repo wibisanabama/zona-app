@@ -131,10 +131,13 @@
                                 <div class="flex items-center justify-between p-2 rounded text-sm" style="background-color: var(--color-ash);">
                                     <div>
                                         <span class="font-medium">{{ $payment->formatted_amount }}</span>
-                                        <span class="text-xs ml-1" style="color: var(--color-stone);">{{ ucfirst($payment->method) }} • {{ ucfirst($payment->type) }}</span>
+                                        <span class="text-xs ml-1" style="color: var(--color-stone);">{{ strtoupper($payment->method) }} • {{ ucfirst(str_replace('_', ' ', $payment->type)) }}</span>
+                                        @if($payment->reference_no)
+                                            <p class="text-xs" style="color: var(--color-stone);">Ref: {{ $payment->reference_no }}</p>
+                                        @endif
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <span class="text-xs" style="color: var(--color-stone);">{{ $payment->created_at->format('d/m H:i') }}</span>
+                                        <span class="text-xs" style="color: var(--color-stone);">{{ $payment->paid_at ? $payment->paid_at->format('d/m H:i') : $payment->created_at->format('d/m H:i') }}</span>
                                         <form method="POST" action="{{ route('payments.destroy', $payment) }}" x-data x-on:submit.prevent="$dispatch('confirm', { title: 'Hapus Pembayaran', message: 'Yakin ingin menghapus catatan pembayaran ini?', actionUrl: $el.action, method: 'DELETE' })" class="inline">
                                             @csrf
                                             @method('DELETE')
@@ -154,20 +157,25 @@
                             @csrf
                             <div class="grid grid-cols-2 gap-2 mb-2">
                                 <input type="number" name="amount" placeholder="Jumlah (Rp)" class="input-base !h-8 !text-xs" required min="1">
-                                <select name="method" class="select-base !h-8 !text-xs">
+                                <select name="method" class="select-base !h-8 !text-xs" required>
                                     <option value="tunai">Tunai</option>
                                     <option value="transfer">Transfer</option>
                                     <option value="qris">QRIS</option>
+                                    <option value="edc">EDC</option>
                                 </select>
                             </div>
                             <div class="grid grid-cols-2 gap-2 mb-2">
-                                <select name="type" class="select-base !h-8 !text-xs">
-                                    <option value="sewa">Sewa</option>
-                                    <option value="deposit">Deposit</option>
+                                <select name="type" class="select-base !h-8 !text-xs" required>
+                                    <option value="dp">DP (Down Payment)</option>
+                                    <option value="pelunasan" selected>Pelunasan</option>
                                     <option value="denda">Denda</option>
-                                    <option value="refund">Refund</option>
+                                    <option value="refund_deposit">Refund Deposit</option>
                                 </select>
-                                <input type="text" name="notes" placeholder="Catatan" class="input-base !h-8 !text-xs">
+                                <input type="text" name="reference_no" placeholder="No. Referensi (Opsional)" class="input-base !h-8 !text-xs">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <input type="datetime-local" name="paid_at" class="input-base !h-8 !text-xs">
+                                <input type="text" name="notes" placeholder="Catatan Tambahan" class="input-base !h-8 !text-xs">
                             </div>
                             <x-button type="submit" class="w-full justify-center !min-h-[32px] !text-xs">Catat Pembayaran</x-button>
                         </form>

@@ -11,10 +11,12 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('rental_id')->constrained()->onDelete('cascade');
-            $table->foreignId('received_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('cashier_id')->constrained('users')->onDelete('restrict');
             $table->decimal('amount', 12, 2);
-            $table->enum('method', ['tunai', 'transfer', 'qris'])->default('tunai');
-            $table->enum('type', ['sewa', 'deposit', 'denda', 'refund'])->default('sewa');
+            $table->enum('method', ['tunai', 'transfer', 'qris', 'edc'])->default('tunai');
+            $table->enum('type', ['dp', 'pelunasan', 'denda', 'refund_deposit'])->default('pelunasan');
+            $table->dateTime('paid_at')->useCurrent();
+            $table->string('reference_no')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });
