@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Auth;
@@ -37,5 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::resource('categories', CategoryController::class)->except(['show']);
         Route::resource('items', ItemController::class);
+    });
+
+    // Admin + Kasir routes
+    Route::middleware('role:admin,kasir')->group(function () {
+        Route::resource('customers', CustomerController::class);
     });
 });
