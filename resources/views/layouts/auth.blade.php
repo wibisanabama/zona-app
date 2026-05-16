@@ -27,7 +27,7 @@
                 <span class="text-3xl">🏕️</span>
             </div>
             <h1 class="text-2xl font-semibold" style="color: var(--color-forest);">Zona Adventure</h1>
-            <p class="text-sm mt-1" style="color: var(--color-stone);">Sistem POS Rental Alat Camping — Cianjur</p>
+            <p class="text-sm mt-1" style="color: var(--color-stone);">Sistem POS Rental Alat Camping - Cianjur</p>
         </div>
 
         {{-- Card Container --}}

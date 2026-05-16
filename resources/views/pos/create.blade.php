@@ -55,7 +55,7 @@
                     <div class="mb-3">
                         <label class="block text-xs font-medium mb-1" style="color: var(--color-stone);">Pelanggan *</label>
                         <select name="customer_id" x-model="customerId" class="select-base" required>
-                            <option value="">— Pilih Pelanggan —</option>
+                            <option value="">Pilih Pelanggan</option>
                             @foreach($customers as $c)
                                 <option value="{{ $c->id }}">{{ $c->name }} ({{ $c->phone }})</option>
                             @endforeach

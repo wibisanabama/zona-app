@@ -30,7 +30,7 @@
                 <div class="space-y-3 text-sm">
                     <div><span style="color: var(--color-stone);">Telepon:</span><br>{{ $customer->phone }}</div>
                     <div><span style="color: var(--color-stone);">Email:</span><br>{{ $customer->email ?? '—' }}</div>
-                    <div><span style="color: var(--color-stone);">Identitas:</span><br><span class="uppercase">{{ $customer->identity_type }}</span> — {{ $customer->identity_number }}</div>
+                    <div><span style="color: var(--color-stone);">Identitas:</span><br><span class="uppercase">{{ $customer->identity_type }}</span> - {{ $customer->identity_number }}</div>
                     <div><span style="color: var(--color-stone);">Alamat:</span><br>{{ $customer->address }}</div>
                     @if($customer->notes)
                         <div><span style="color: var(--color-stone);">Catatan:</span><br>{{ $customer->notes }}</div>

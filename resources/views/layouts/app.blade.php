@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="Zona Adventure Cianjur — Sistem POS Rental Alat Camping">
 
-    <title>@yield('title', 'Dashboard') — {{ config('app.name') }}</title>
+    <title>@yield('title', 'Dashboard') - {{ config('app.name') }}</title>
 
     {{-- Favicon --}}
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏕️</text></svg>" type="image/svg+xml">
@@ -113,7 +113,7 @@
             {{-- Footer --}}
             <footer class="border-t py-4 px-6 text-center" style="border-color: var(--color-mist);">
                 <p class="text-xs" style="color: var(--color-stone);">
-                    &copy; {{ date('Y') }} Zona Adventure Cianjur — Sistem POS Rental
+                    &copy; {{ date('Y') }} Zona Adventure Cianjur - Sistem POS Rental
                 </p>
             </footer>
         </main>

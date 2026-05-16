@@ -48,7 +48,7 @@
                     </div>
                     <div>
                         <p class="text-xs" style="color: var(--color-stone);">Dikembalikan</p>
-                        <p class="font-medium">{{ $rental->actual_return_date ? $rental->actual_return_date->format('d/m/Y') : '—' }}</p>
+                        <p class="font-medium">{{ $rental->actual_return_date ? $rental->actual_return_date->format('d/m/Y') : '-' }}</p>
                     </div>
                 </div>
             </x-card>
@@ -73,7 +73,7 @@
                                         {{ str_replace('_', ' ', ucfirst($ri->condition_on_return)) }}
                                     </x-badge>
                                 @else
-                                    <span style="color: var(--color-stone);">—</span>
+                                    <span style="color: var(--color-stone);">-</span>
                                 @endif
                             </td>
                         </tr>
