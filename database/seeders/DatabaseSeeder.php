@@ -35,5 +35,8 @@ class DatabaseSeeder extends Seeder
 
         // Seed categories
         $this->call(CategorySeeder::class);
+
+        // Seed items
+        $this->call(ItemSeeder::class);
     }
 }

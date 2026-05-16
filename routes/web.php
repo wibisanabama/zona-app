@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +36,6 @@ Route::middleware('auth')->group(function () {
     // Admin-only routes
     Route::middleware('role:admin')->group(function () {
         Route::resource('categories', CategoryController::class)->except(['show']);
+        Route::resource('items', ItemController::class);
     });
 });
