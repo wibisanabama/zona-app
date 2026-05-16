@@ -45,6 +45,13 @@ Route::middleware('auth')->group(function () {
 
         // Reports
         Route::get('/reports/sales-daily', [ReportController::class, 'salesDaily'])->name('reports.sales-daily');
+        Route::get('/reports/sales-daily/csv', [ReportController::class, 'exportSalesDailyCsv'])->name('reports.sales-daily.csv');
+        Route::get('/reports/sales-monthly', [ReportController::class, 'salesMonthly'])->name('reports.sales-monthly');
+        Route::get('/reports/sales-monthly/csv', [ReportController::class, 'exportSalesMonthlyCsv'])->name('reports.sales-monthly.csv');
+        Route::get('/reports/item-utilization', [ReportController::class, 'itemUtilization'])->name('reports.item-utilization');
+        Route::get('/reports/item-utilization/csv', [ReportController::class, 'exportItemUtilizationCsv'])->name('reports.item-utilization.csv');
+        Route::get('/reports/overdue', [ReportController::class, 'overdueRentals'])->name('reports.overdue');
+        Route::get('/reports/overdue/csv', [ReportController::class, 'exportOverdueCsv'])->name('reports.overdue.csv');
     });
 
     // Admin + Kasir routes
