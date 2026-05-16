@@ -10,6 +10,7 @@ use App\Models\RentalItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class PosController extends Controller
 {
@@ -63,7 +64,9 @@ class PosController extends Controller
                 $item = Item::lockForUpdate()->findOrFail($ci['item_id']);
 
                 if ($item->stock_available < $ci['quantity']) {
-                    throw new \Exception("Stok {$item->name} tidak mencukupi. Tersedia: {$item->stock_available}");
+                    throw ValidationException::withMessages([
+                        'items' => "Stok {$item->name} tidak mencukupi. Tersedia: {$item->stock_available}"
+                    ]);
                 }
 
                 $ci['daily_rate'] = (float) $item->daily_rate;
