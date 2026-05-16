@@ -73,8 +73,9 @@ class RentalController extends Controller
 
             // Check overdue
             if ($today->gt($rental->due_date)) {
-                $lateDays = $today->diffInDays($rental->due_date);
-                $lateFee = $rental->subtotal / $rental->days * $lateDays * 0.5; // 50% per late day
+                $lateDays = (int) Carbon::parse($rental->due_date)->diffInDays($today, true);
+                $rentalDays = max(1, $rental->days);
+                $lateFee = round(($rental->subtotal / $rentalDays) * $lateDays * 0.5); // 50% per late day
             }
 
             foreach ($request->items as $ri) {
@@ -94,7 +95,7 @@ class RentalController extends Controller
             $rental->update([
                 'status' => 'selesai',
                 'actual_return_date' => $today,
-                'late_fee' => round($lateFee),
+                'late_fee' => $lateFee,
             ]);
 
             return redirect()->route('rentals.show', $rental)
