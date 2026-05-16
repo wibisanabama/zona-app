@@ -65,7 +65,7 @@
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs font-medium mb-1" style="color: var(--color-stone);">Tanggal Sewa *</label>
-                            <input type="date" name="rental_date" x-model="rentalDate" class="input-base" required>
+                            <input type="date" name="rental_date" x-model="rentalDate" min="{{ date('Y-m-d') }}" class="input-base" required>
                         </div>
                         <div>
                             <label class="block text-xs font-medium mb-1" style="color: var(--color-stone);">Durasi (hari) *</label>
