@@ -42,12 +42,18 @@ Sistem Point of Sale (POS) dan manajemen penyewaan alat camping khusus untuk Zon
    php artisan migrate:fresh --seed
    ```
 
-5. **Build Aset Frontend (Tailwind 4 & Alpine):**
+5. **Storage Link:**
+   Buat symbolic link untuk mengaktifkan akses ke folder storage (penting untuk foto barang).
+   ```bash
+   php artisan storage:link
+   ```
+
+6. **Build Aset Frontend (Tailwind 4 & Alpine):**
    ```bash
    npm run build
    ```
 
-6. **Jalankan Aplikasi:**
+7. **Jalankan Aplikasi:**
    ```bash
    php artisan serve
    ```
