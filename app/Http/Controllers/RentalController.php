@@ -78,28 +78,54 @@ class RentalController extends Controller
                 $lateFee = round(($rental->subtotal / $rentalDays) * $lateDays * 0.5); // 50% per late day
             }
 
+            $allReturned = true;
+
             foreach ($request->items as $ri) {
                 $rentalItem = $rental->rentalItems()->findOrFail($ri['rental_item_id']);
-                $returnQty = min($ri['returned_quantity'], $rentalItem->quantity);
+                
+                $amountToReturnNow = (int) $ri['returned_quantity'];
+                $remainingToReturn = max(0, $rentalItem->quantity - $rentalItem->returned_quantity);
+                $validReturnQty = min($amountToReturnNow, $remainingToReturn);
 
-                $rentalItem->update([
-                    'returned_quantity' => $returnQty,
-                    'condition_on_return' => $ri['condition_on_return'],
-                ]);
+                if ($validReturnQty > 0) {
+                    $rentalItem->increment('returned_quantity', $validReturnQty);
+                    $rentalItem->update([
+                        'condition_on_return' => $ri['condition_on_return'],
+                    ]);
 
-                // Restore stock
-                Item::where('id', $rentalItem->item_id)
-                    ->increment('stock_available', $returnQty);
+                    // Restore stock explicitly only for 'baik' or 'perlu_perbaikan'
+                    // 'rusak' condition does not restore stock_available and decreases stock_total
+                    if (in_array($ri['condition_on_return'], ['baik', 'perlu_perbaikan'])) {
+                        Item::where('id', $rentalItem->item_id)
+                            ->increment('stock_available', $validReturnQty);
+                    } elseif ($ri['condition_on_return'] === 'rusak') {
+                        Item::where('id', $rentalItem->item_id)
+                            ->decrement('stock_total', $validReturnQty);
+                    }
+                }
+
+                // Check if this item is completely returned
+                if ($rentalItem->fresh()->returned_quantity < $rentalItem->quantity) {
+                    $allReturned = false;
+                }
             }
 
-            $rental->update([
-                'status' => 'selesai',
-                'actual_return_date' => $today,
-                'late_fee' => $lateFee,
-            ]);
+            if ($allReturned) {
+                $rental->update([
+                    'status' => 'selesai',
+                    'actual_return_date' => $today,
+                    'late_fee' => $lateFee,
+                ]);
+                $msg = 'Pengembalian berhasil diproses. Sewa telah selesai.';
+            } else {
+                $rental->update([
+                    'late_fee' => $lateFee,
+                ]);
+                $msg = 'Pengembalian sebagian berhasil dicatat. Status sewa masih aktif menunggu sisa barang.';
+            }
 
             return redirect()->route('rentals.show', $rental)
-                ->with('success', 'Pengembalian berhasil diproses.'.($lateFee > 0 ? ' Denda keterlambatan: Rp '.number_format($lateFee, 0, ',', '.') : ''));
+                ->with('success', $msg . ($lateFee > 0 ? ' Denda keterlambatan: Rp '.number_format($lateFee, 0, ',', '.') : ''));
         });
     }
 
