@@ -19,6 +19,7 @@
     </a>
     @endif
 
+    @if(Auth::user() && Auth::user()->isAdmin())
     <div class="py-2">
         <div class="border-t" style="border-color: var(--color-mist);"></div>
         <p class="px-4 pt-3 pb-1 text-xs font-medium uppercase tracking-wider" style="color: var(--color-stone);">Master Data</p>
@@ -35,6 +36,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
         <span>Kategori</span>
     </a>
+    @endif
 
     {{-- Pelanggan --}}
     <a href="{{ route('customers.index') }}" class="sidebar-link {{ request()->routeIs('customers.*') ? 'active' : '' }}">
