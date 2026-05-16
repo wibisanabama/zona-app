@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RentalController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::resource('categories', CategoryController::class)->except(['show']);
         Route::resource('items', ItemController::class);
+
+        // Reports
+        Route::get('/reports/sales-daily', [ReportController::class, 'salesDaily'])->name('reports.sales-daily');
     });
 
     // Admin + Kasir routes
