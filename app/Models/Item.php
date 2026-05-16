@@ -62,7 +62,7 @@ class Item extends Model
      */
     public function getFormattedDailyRateAttribute(): string
     {
-        return 'Rp ' . number_format($this->daily_rate, 0, ',', '.');
+        return 'Rp '.number_format($this->daily_rate, 0, ',', '.');
     }
 
     /**
@@ -70,7 +70,7 @@ class Item extends Model
      */
     public function getFormattedDepositAmountAttribute(): string
     {
-        return 'Rp ' . number_format($this->deposit_amount, 0, ',', '.');
+        return 'Rp '.number_format($this->deposit_amount, 0, ',', '.');
     }
 
     /**

@@ -29,7 +29,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            RateLimiter::clear(Str::lower($request->input('email')) . '|' . $request->ip());
+            RateLimiter::clear(Str::lower($request->input('email')).'|'.$request->ip());
 
             $user = Auth::user();
 

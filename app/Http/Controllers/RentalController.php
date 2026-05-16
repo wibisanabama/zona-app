@@ -16,10 +16,10 @@ class RentalController extends Controller
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('code', 'like', '%' . $request->search . '%')
-                  ->orWhereHas('customer', function ($cq) use ($request) {
-                      $cq->where('name', 'like', '%' . $request->search . '%');
-                  });
+                $q->where('code', 'like', '%'.$request->search.'%')
+                    ->orWhereHas('customer', function ($cq) use ($request) {
+                        $cq->where('name', 'like', '%'.$request->search.'%');
+                    });
             });
         }
 
@@ -99,7 +99,7 @@ class RentalController extends Controller
             ]);
 
             return redirect()->route('rentals.show', $rental)
-                ->with('success', 'Pengembalian berhasil diproses.' . ($lateFee > 0 ? " Denda keterlambatan: Rp " . number_format($lateFee, 0, ',', '.') : ''));
+                ->with('success', 'Pengembalian berhasil diproses.'.($lateFee > 0 ? ' Denda keterlambatan: Rp '.number_format($lateFee, 0, ',', '.') : ''));
         });
     }
 
@@ -119,7 +119,7 @@ class RentalController extends Controller
             $rental->update(['status' => 'batal']);
 
             return redirect()->route('rentals.index')
-                ->with('success', 'Sewa ' . $rental->code . ' berhasil dibatalkan dan stok dikembalikan.');
+                ->with('success', 'Sewa '.$rental->code.' berhasil dibatalkan dan stok dikembalikan.');
         });
     }
 }

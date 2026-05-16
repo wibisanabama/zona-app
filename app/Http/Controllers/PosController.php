@@ -26,8 +26,8 @@ class PosController extends Controller
 
         if ($request->filled('q')) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->q . '%')
-                  ->orWhere('sku', 'like', '%' . $request->q . '%');
+                $q->where('name', 'like', '%'.$request->q.'%')
+                    ->orWhere('sku', 'like', '%'.$request->q.'%');
             });
         }
 
@@ -52,7 +52,7 @@ class PosController extends Controller
     {
         $data = $request->validated();
 
-        return DB::transaction(function () use ($data, $request) {
+        return DB::transaction(function () use ($data) {
             $days = (int) $data['days'];
             $cartItems = $data['items'];
             $subtotal = 0;
@@ -83,7 +83,7 @@ class PosController extends Controller
                 'customer_id' => $data['customer_id'],
                 'cashier_id' => Auth::id(),
                 'rental_date' => $data['rental_date'],
-                'due_date' => date('Y-m-d', strtotime($data['rental_date'] . " + {$days} days")),
+                'due_date' => date('Y-m-d', strtotime($data['rental_date']." + {$days} days")),
                 'days' => $days,
                 'subtotal' => $subtotal,
                 'discount' => $discount,

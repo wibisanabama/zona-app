@@ -9,7 +9,7 @@
         <x-slot:actions>
             @if($rental->status === 'aktif')
                 <x-button href="{{ route('rentals.return', $rental) }}">Proses Pengembalian</x-button>
-                <form method="POST" action="{{ route('rentals.cancel', $rental) }}" x-data x-on:submit.prevent="if(confirm('Batalkan sewa ini? Stok akan dikembalikan.')) $el.submit()" class="inline">
+                <form method="POST" action="{{ route('rentals.cancel', $rental) }}" x-data x-on:submit.prevent="$dispatch('confirm', { title: 'Batalkan Sewa', message: 'Yakin ingin membatalkan sewa ini? Stok akan dikembalikan.', actionUrl: $el.action, method: 'POST' })" class="inline">
                     @csrf
                     <x-button type="submit" variant="danger">Batalkan</x-button>
                 </form>
@@ -135,7 +135,7 @@
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <span class="text-xs" style="color: var(--color-stone);">{{ $payment->created_at->format('d/m H:i') }}</span>
-                                        <form method="POST" action="{{ route('payments.destroy', $payment) }}" x-data x-on:submit.prevent="if(confirm('Hapus pembayaran ini?')) $el.submit()" class="inline">
+                                        <form method="POST" action="{{ route('payments.destroy', $payment) }}" x-data x-on:submit.prevent="$dispatch('confirm', { title: 'Hapus Pembayaran', message: 'Yakin ingin menghapus catatan pembayaran ini?', actionUrl: $el.action, method: 'DELETE' })" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-xs cursor-pointer bg-transparent border-none" style="color: var(--color-danger);">✕</button>

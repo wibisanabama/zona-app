@@ -41,5 +41,7 @@
         </p>
     </div>
 
+    <x-toast />
+    @stack('scripts')
 </body>
 </html>

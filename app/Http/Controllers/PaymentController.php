@@ -37,7 +37,7 @@ class PaymentController extends Controller
         $rental->update(['paid_amount' => $totalPaid]);
 
         return redirect()->route('rentals.show', $rental)
-            ->with('success', 'Pembayaran Rp ' . number_format($request->amount, 0, ',', '.') . ' berhasil dicatat.');
+            ->with('success', 'Pembayaran Rp '.number_format($request->amount, 0, ',', '.').' berhasil dicatat.');
     }
 
     public function destroy(Payment $payment)

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rental;
-use App\Models\Payment;
-use App\Models\Item;
 use App\Models\Customer;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Item;
+use App\Models\Payment;
+use App\Models\Rental;
 use Carbon\Carbon;
 
 class DashboardController extends Controller

@@ -16,7 +16,7 @@ class CategoryController extends Controller
         $query = Category::withCount('items');
 
         if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', '%'.$request->search.'%');
         }
 
         $categories = $query->orderBy('name')->paginate(15)->withQueryString();

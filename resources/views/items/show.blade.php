@@ -54,7 +54,7 @@
                 </div>
             </x-card>
             <div class="flex justify-end">
-                <form method="POST" action="{{ route('items.destroy', $item) }}" x-data x-on:submit.prevent="if(confirm('Hapus barang ini?')) $el.submit()">
+                <form method="POST" action="{{ route('items.destroy', $item) }}" x-data x-on:submit.prevent="$dispatch('confirm', { title: 'Hapus Barang', message: 'Yakin ingin menghapus barang ini? Data stok dan riwayat sewa mungkin terpengaruh.', actionUrl: $el.action, method: 'DELETE' })">
                     @csrf
                     @method('DELETE')
                     <x-button type="submit" variant="danger">Hapus Barang</x-button>

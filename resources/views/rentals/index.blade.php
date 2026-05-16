@@ -65,11 +65,10 @@
         </x-data-table>
         <div class="mt-4">{{ $rentals->links() }}</div>
     @else
-        <x-card>
-            <div class="py-12 text-center">
-                <p class="text-sm mb-3" style="color: var(--color-stone);">Belum ada transaksi sewa.</p>
-                <x-button href="{{ route('pos.create') }}">Buat Transaksi Baru</x-button>
-            </div>
-        </x-card>
+        <x-empty-state 
+            title="Belum Ada Transaksi" 
+            message="Belum ada transaksi sewa yang sesuai dengan filter Anda."
+            action-label="Buat Transaksi Baru"
+            :action-url="route('pos.create')" />
     @endif
 @endsection

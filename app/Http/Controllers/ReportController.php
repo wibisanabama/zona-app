@@ -6,14 +6,13 @@ use App\Models\Payment;
 use App\Models\Rental;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
     public function salesDaily(Request $request)
     {
         $month = $request->input('month', date('Y-m'));
-        $startDate = Carbon::parse($month . '-01')->startOfMonth();
+        $startDate = Carbon::parse($month.'-01')->startOfMonth();
         $endDate = $startDate->copy()->endOfMonth();
 
         // Daily Income from Payments

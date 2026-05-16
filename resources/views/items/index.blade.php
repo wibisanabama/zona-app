@@ -90,12 +90,10 @@
             {{ $items->links() }}
         </div>
     @else
-        <x-card>
-            <div class="py-12 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-3" style="color: var(--color-dove);"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                <p class="text-sm mb-3" style="color: var(--color-stone);">Belum ada barang.</p>
-                <x-button href="{{ route('items.create') }}">Tambah Barang Pertama</x-button>
-            </div>
-        </x-card>
+        <x-empty-state 
+            title="Belum Ada Barang" 
+            message="Silakan tambah barang baru untuk disewakan."
+            action-label="+ Tambah Barang"
+            :action-url="route('items.create')" />
     @endif
 @endsection

@@ -54,12 +54,10 @@
         </x-data-table>
         <div class="mt-4">{{ $customers->links() }}</div>
     @else
-        <x-card>
-            <div class="py-12 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-3" style="color: var(--color-dove);"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                <p class="text-sm mb-3" style="color: var(--color-stone);">Belum ada pelanggan.</p>
-                <x-button href="{{ route('customers.create') }}">Tambah Pelanggan Pertama</x-button>
-            </div>
-        </x-card>
+        <x-empty-state 
+            title="Belum Ada Pelanggan" 
+            message="Data pelanggan akan muncul di sini setelah Anda menambahkan pelanggan baru."
+            action-label="+ Pelanggan Baru"
+            :action-url="route('customers.create')" />
     @endif
 @endsection
