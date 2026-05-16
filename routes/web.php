@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PosController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,5 +44,11 @@ Route::middleware('auth')->group(function () {
     // Admin + Kasir routes
     Route::middleware('role:admin,kasir')->group(function () {
         Route::resource('customers', CustomerController::class);
+
+        // POS
+        Route::get('/pos', [PosController::class, 'create'])->name('pos.create');
+        Route::get('/pos/search-items', [PosController::class, 'searchItems'])->name('pos.search-items');
+        Route::post('/pos', [PosController::class, 'store'])->name('pos.store');
+        Route::get('/pos/{rental}/receipt', [PosController::class, 'receipt'])->name('pos.receipt');
     });
 });
